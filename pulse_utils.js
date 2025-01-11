@@ -124,10 +124,10 @@ function getSessionId() {
 // }
 
 function enrichAndSendEvent(event,pixelID) {
-    if (typeof analytics === "undefined") {
-        console.warn("Analytics is undefined. Cannot process event:", event);
-        return;
-    }
+    // if (typeof analytics === "undefined") {
+    //     console.warn("Analytics is undefined. Cannot process event:", event);
+    //     return;
+    // }
 
     console.log("Processing event with analytics:", event);
 
