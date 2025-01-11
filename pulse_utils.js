@@ -141,6 +141,7 @@ function enrichAndSendEvent(event,pixelID) {
             PulseSource: "Shopifynew",
             visitorId,
             sessionId,
+            pixel_id:pixelID
         };
 
         console.log("Enriched Event:", enrichedEvent);
