@@ -69,57 +69,97 @@ function getSessionId() {
     return sessionId;
 }
 
-async function enrichAndSendEvent(event) {
+// async function enrichAndSendEvent(event) {
+//     try {
+//         const navigatorAlias = navigator, screenAlias = window.screen;
+
+//         // Check if device is mobile
+//         const isMobile = () => /Mobi|Android/i.test(navigatorAlias.userAgent);
+
+//         // Get device dimensions
+//         const getDeviceDimensions = () => ({
+//             width: screenAlias.width,
+//             height: screenAlias.height,
+//         });
+
+//         // Device details
+//         const device = {
+//             brands: navigatorAlias.userAgentData?.brands || navigatorAlias.appCodeName,
+//             platform: navigatorAlias.userAgentData?.platform || navigatorAlias.platform,
+//             deviceDimensions: getDeviceDimensions(),
+//             device: isMobile() ? "Mobile" : "Desktop",
+//         };
+
+//         // Get visitor and session IDs
+//         const visitorId = getVisitorId();
+//         const sessionId = getSessionId();
+
+//         // Enrich the event
+//         const enrichedEvent = {
+//             ...event,
+//             PulseSource: 'Shopify',
+//             visitorId,
+//             sessionId,
+//             fingerprint: 'testing', // Replace with ThumbmarkJS logic if required
+//             device,
+//             pixel_id: "052908a0-0a37-44ee-bab7-a34fe5cb0b17",
+//         };
+
+//         console.log("Sending enriched event to server:", enrichedEvent);
+
+//         // Send enriched event to the server
+//         const response = await fetch('https://devserver.booleanmaths.com/node/pixel/trackevents', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(enrichedEvent),
+//             keepalive: true,
+//         });
+
+//         console.log("Event sent, response:", response);
+//     } catch (err) {
+//         console.error("Error enriching or sending event:", err);
+//     }
+// }
+
+function enrichAndSendEvent(event) {
+    if (typeof analytics === "undefined") {
+        console.warn("Analytics is undefined. Cannot process event:", event);
+        return;
+    }
+
+    console.log("Processing event with analytics:", event);
+
     try {
-        const navigatorAlias = navigator, screenAlias = window.screen;
-
-        // Check if device is mobile
-        const isMobile = () => /Mobi|Android/i.test(navigatorAlias.userAgent);
-
-        // Get device dimensions
-        const getDeviceDimensions = () => ({
-            width: screenAlias.width,
-            height: screenAlias.height,
-        });
-
-        // Device details
-        const device = {
-            brands: navigatorAlias.userAgentData?.brands || navigatorAlias.appCodeName,
-            platform: navigatorAlias.userAgentData?.platform || navigatorAlias.platform,
-            deviceDimensions: getDeviceDimensions(),
-            device: isMobile() ? "Mobile" : "Desktop",
-        };
-
-        // Get visitor and session IDs
+        // Enrich the event with visitorId and sessionId
         const visitorId = getVisitorId();
         const sessionId = getSessionId();
 
-        // Enrich the event
         const enrichedEvent = {
             ...event,
-            PulseSource: 'Shopify',
+            PulseSource: "Shopify",
             visitorId,
             sessionId,
-            fingerprint: 'testing', // Replace with ThumbmarkJS logic if required
-            device,
-            pixel_id: "052908a0-0a37-44ee-bab7-a34fe5cb0b17",
         };
 
-        console.log("Sending enriched event to server:", enrichedEvent);
+        console.log("Enriched Event:", enrichedEvent);
 
-        // Send enriched event to the server
-        const response = await fetch('https://devserver.booleanmaths.com/node/pixel/trackevents', {
-            method: 'POST',
+        // Send the enriched event to the server
+        fetch("https://devserver.booleanmaths.com/node/pixel/trackevents", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(enrichedEvent),
             keepalive: true,
+        }).then((response) => {
+            console.log("Event sent, response:", response);
+        }).catch((error) => {
+            console.error("Error sending event:", error);
         });
-
-        console.log("Event sent, response:", response);
     } catch (err) {
-        console.error("Error enriching or sending event:", err);
+        console.error("Error processing event:", err);
     }
 }
 
