@@ -123,7 +123,7 @@ function getSessionId() {
 //     }
 // }
 
-function enrichAndSendEvent(event) {
+function enrichAndSendEvent(event,pixelID) {
     if (typeof analytics === "undefined") {
         console.warn("Analytics is undefined. Cannot process event:", event);
         return;
@@ -138,7 +138,7 @@ function enrichAndSendEvent(event) {
 
         const enrichedEvent = {
             ...event,
-            PulseSource: "Shopify",
+            PulseSource: "Shopifynew",
             visitorId,
             sessionId,
         };
