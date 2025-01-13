@@ -169,7 +169,7 @@ console.log("fpjsRes", fpjsRes);
 
         const enrichedEvent = {
             ...event,
-            PulseSource: "Shopifynew",
+            PulseSource: "Shopify",
             visitorId,
             sessionId,
             pixel_id:pixelID,
