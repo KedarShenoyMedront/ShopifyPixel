@@ -75,12 +75,7 @@ function generateUniqueId() {
         return v.toString(16);
     });
 }
-const fpjsScript = await import(
-    "https://cdn.jsdelivr.net/npm/@thumbmarkjs/thumbmarkjs/dist/thumbmark.umd.js"
-);
 
-const fpjsRes = await ThumbmarkJS.getFingerprint();
-console.log("fpjsRes", fpjsRes);
 
 function getVisitorId() {
     let visitorId = localStorage.getItem('visitorId');
@@ -154,12 +149,17 @@ function getSessionId() {
 //     }
 // }
 
-function enrichAndSendEvent(event,pixelID) {
+async function enrichAndSendEvent(event,pixelID) {
     // if (typeof analytics === "undefined") {
     //     console.warn("Analytics is undefined. Cannot process event:", event);
     //     return;
     // }
+    const fpjsScript = await import(
+    "https://cdn.jsdelivr.net/npm/@thumbmarkjs/thumbmarkjs/dist/thumbmark.umd.js"
+);
 
+const fpjsRes = await ThumbmarkJS.getFingerprint();
+console.log("fpjsRes", fpjsRes);
     console.log("Processing event with analytics:", event);
 
     try {
