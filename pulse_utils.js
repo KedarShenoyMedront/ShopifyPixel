@@ -43,6 +43,31 @@
 // };
 
 
+var navigatorAlias = navigator,
+windowAlias = window,
+screenAlias = window.screen,
+locationAlias = window.location;
+
+// Helper function to determine if the device is mobile
+function isMobile() {
+return /Mobi|Android/i.test(navigatorAlias.userAgent);
+}
+
+// Function to get the device dimensions (width and height of the screen)
+const getDeviceDimensions = () => {
+return {
+  width: screenAlias.width,
+  height: screenAlias.height
+};
+};
+
+// Example event object with device details
+let device = {
+  brands: navigatorAlias.userAgentData && navigatorAlias.userAgentData.brands? navigatorAlias.userAgentData.brands : navigatorAlias.appCodeName,
+  platform: navigatorAlias.userAgentData && navigatorAlias.userAgentData.platform ? navigatorAlias.userAgentData.platform : navigatorAlias.platform,
+  deviceDimensions: getDeviceDimensions(),
+  device: isMobile() ? "Mobile" : "Desktop"
+};
 
 function generateUniqueId() {
     return 'xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -50,6 +75,12 @@ function generateUniqueId() {
         return v.toString(16);
     });
 }
+const fpjsScript = await import(
+    "https://cdn.jsdelivr.net/npm/@thumbmarkjs/thumbmarkjs/dist/thumbmark.umd.js"
+);
+
+const fpjsRes = await ThumbmarkJS.getFingerprint();
+console.log("fpjsRes", fpjsRes);
 
 function getVisitorId() {
     let visitorId = localStorage.getItem('visitorId');
@@ -141,7 +172,9 @@ function enrichAndSendEvent(event,pixelID) {
             PulseSource: "Shopifynew",
             visitorId,
             sessionId,
-            pixel_id:pixelID
+            pixel_id:pixelID,
+            fingerprint: fpjsRes,
+            device:device,
         };
 
         console.log("Enriched Event:", enrichedEvent);
