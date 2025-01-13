@@ -174,7 +174,7 @@ console.log("fpjsRes", fpjsRes);
             sessionId,
             pixel_id:pixelID,
             fingerprint: fpjsRes,
-            device:device,
+            // device:device,a
         };
 
         console.log("Enriched Event:", enrichedEvent);
