@@ -173,7 +173,7 @@ console.log("fpjsRes", fpjsRes);
             visitorId,
             sessionId,
             pixel_id:pixelID,
-            // fingerprint: fpjsRes,
+            fingerprint: fpjsRes,
             // device:device,a
         };
 
