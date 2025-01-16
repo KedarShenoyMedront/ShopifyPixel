@@ -180,7 +180,7 @@ console.log("fpjsRes", fpjsRes);
         console.log("Enriched Event:", enrichedEvent);
 
         // Send the enriched event to the server
-        fetch("https://app.booleanmaths.com/node/pixel/trackevents", {
+        fetch("https://devserver.booleanmaths.com/node/pixel/trackevents", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
